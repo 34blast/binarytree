@@ -17,6 +17,36 @@ public class BinaryTree implements Serializable {
 	private BinaryTree leftChild;
 	private BinaryTree rightChild;
 
+
+	/**
+	 * Gets all the nodes at a certain level, the root is level 0
+	 * 
+	 * @param pLevel
+	 * @return List<BinaryTree>
+	 */
+	static public List<BinaryTree> getNodesAtLevel(BinaryTree pBTree, int pLevel) {
+		ArrayList<BinaryTree> levelList = new ArrayList<BinaryTree>();
+		if (pLevel == 0) {
+			levelList.add(pBTree);
+		} else {
+			BinaryTree leftChild = pBTree.getLeftChild();
+			List<BinaryTree> leftChildren = null;
+			int nextlevel = pLevel - 1;
+			if (leftChild != null) {
+				leftChildren = BinaryTree.getNodesAtLevel(leftChild, nextlevel);
+				levelList.addAll(leftChildren);
+			}
+			BinaryTree rightChild = pBTree.getRightChild();
+			List<BinaryTree> rightChildren = null;
+			if( rightChild != null) {
+				rightChildren = BinaryTree.getNodesAtLevel(rightChild, nextlevel);
+			}
+			levelList.addAll(rightChildren);
+		}
+
+		return levelList;
+	}
+	
 	/**
 	 * Constructor for BinaryTree.
 	 * 
@@ -121,35 +151,6 @@ public class BinaryTree implements Serializable {
 			isLeaf = true;
 		}
 		return isLeaf;
-	}
-
-	/**
-	 * Gets all the nodes at a certain level, the root is level 0
-	 * 
-	 * @param pLevel
-	 * @return List<BinaryTree>
-	 */
-	static public List<BinaryTree> getNodesAtLevel(BinaryTree pBTree, int pLevel) {
-		ArrayList<BinaryTree> levelList = new ArrayList<BinaryTree>();
-		if (pLevel == 0) {
-			levelList.add(pBTree);
-		} else {
-			BinaryTree leftChild = pBTree.getLeftChild();
-			List<BinaryTree> leftChildren = null;
-			int nextlevel = pLevel - 1;
-			if (leftChild != null) {
-				leftChildren = BinaryTree.getNodesAtLevel(leftChild, nextlevel);
-				levelList.addAll(leftChildren);
-			}
-			BinaryTree rightChild = pBTree.getRightChild();
-			List<BinaryTree> rightChildren = null;
-			if( rightChild != null) {
-				rightChildren = BinaryTree.getNodesAtLevel(rightChild, nextlevel);
-			}
-			levelList.addAll(rightChildren);
-		}
-
-		return levelList;
 	}
 
 	/**
